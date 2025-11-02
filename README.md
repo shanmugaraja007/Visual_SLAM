@@ -88,22 +88,18 @@ Detect and visualize ORB keypoints in each frame.
 **Output:**
 
 * Video: `kp_detection_output.mp4` showing keypoints per frame.
-<video width="640" controls>
-  <source src="kp_detection_output.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-**Improvements:**
+![feature_detection](outputs/kp_detection_output.gif)
 
-* Use other detectors (SIFT, AKAZE) for more robustness.
-* Store descriptors for downstream tasks (matching, pose estimation).
 
 ---
 
-### 2️⃣ `feature_matching.py`
+### 2️. `feature_matching.py`
 
 **Purpose:**
 Match ORB features between consecutive frames for motion analysis.
 
+    python feature_matching.py
+   
 **Algorithm:**
 
 1. Detect and compute ORB descriptors for each frame.
@@ -114,6 +110,7 @@ Match ORB features between consecutive frames for motion analysis.
 
 **Output:**
 
+![Feature Matching](output/matches_output.gif)
 * Video: `matches_output.mp4` showing matched features.
 
 **Improvements:**
@@ -123,10 +120,12 @@ Match ORB features between consecutive frames for motion analysis.
 
 ---
 
-### 3️⃣ `visual_odometry.py`
+### 3️. `visual_odometry.py`
 
 **Purpose:**
 Estimate camera trajectory using consecutive ORB feature matches.
+
+    python visual_odometry.py
 
 **Algorithm:**
 
@@ -139,6 +138,7 @@ Estimate camera trajectory using consecutive ORB feature matches.
 7. Visualize trajectory using Plotly.
 
 **Output:**
+![visual_odometry_3d](output/Trajectory.gif)
 
 * 3D camera trajectory visualization.
 * `trajectory.txt` storing XYZ positions per frame.
@@ -150,11 +150,12 @@ Estimate camera trajectory using consecutive ORB feature matches.
 
 ---
 
-### 4️⃣ `loop_closure.py`
+### 4️. `loop_closure.py`
 
 **Purpose:**
 Detect potential loop closures to improve pose accuracy.
 
+    python loop_closure.py
 **Algorithm:**
 
 1. Maintain a list of **keyframes** (every N-th frame).
@@ -174,11 +175,13 @@ Detect potential loop closures to improve pose accuracy.
 
 ---
 
-### 5️⃣ `sparse_reconstruction_with_trajectory.py`
+### 5️. `sparse_reconstruction_with_trajectory.py`
 
 **Purpose:**
 Build a **sparse 3D map** using keyframe triangulation and visualize trajectory + points.
 
+    python sparse_reconstruction_with_trajectory.py
+    
 **Algorithm:**
 
 1. Select keyframes at a fixed step.
@@ -192,6 +195,7 @@ Build a **sparse 3D map** using keyframe triangulation and visualize trajectory 
 
 **Output:**
 
+![Sparse_reconstruction.gif](output/Sparse_reconstruction.gif)
 * `sparse_map.ply` → 3D point cloud.
 * `trajectory.txt` → camera trajectory.
 * Interactive 3D Plotly visualization.
@@ -204,49 +208,9 @@ Build a **sparse 3D map** using keyframe triangulation and visualize trajectory 
 
 ---
 
-## ▶ Running the Project
+##  Improvements & Future Work
 
-```bash
-# Step 1: Feature detection
-python feature_detection.py
-
-# Step 2: Feature matching
-python feature_matching.py
-
-# Step 3: Visual Odometry
-python visual_odometry.py
-
-# Step 4: Loop closure detection (optional)
-python loop_closure.py
-
-# Step 5: Sparse 3D reconstruction + trajectory
-python sparse_reconstruction_with_trajectory.py
-```
+In the next stages, the project could be enhanced by incorporating RANSAC and bundle adjustment to achieve more accurate and stable pose estimation. Switching from ORB to more advanced feature detectors like SIFT, AKAZE, or even deep-learning-based methods such as SuperPoint would make the system more robust, especially in low-texture or lighting-challenged environments. After implementing loop closure, pose graph optimization can be applied to refine the global consistency of the trajectory. Additionally, moving beyond sparse reconstruction to dense 3D mapping would provide a more complete representation of the scene. Eventually, integrating the entire pipeline with ROS would enable a real-time Visual SLAM setup suitable for robotics applications.
 
 ---
 
-## 📷 Outputs
-
-| Script                                   | Output                                                           |
-| ---------------------------------------- | ---------------------------------------------------------------- |
-| feature_detection.py                     | `kp_detection_output.mp4`                                        |
-| feature_matching.py                      | `matches_output.mp4`                                             |
-| visual_odometry.py                       | 3D trajectory Plotly visualization, `trajectory.txt`             |
-| loop_closure.py                          | Console logs of detected loop closures                           |
-| sparse_reconstruction_with_trajectory.py | Sparse 3D point cloud `sparse_map.ply`, trajectory visualization |
-
----
-
-## ⚡ Improvements & Future Work
-
-1. Implement **RANSAC + bundle adjustment** for more accurate pose estimation.
-2. Replace ORB with **SIFT / AKAZE / SuperPoint** for robustness in textureless environments.
-3. Use **Pose Graph Optimization** after loop closure detection.
-4. Upgrade to **dense reconstruction** for complete 3D scene mapping.
-5. Integrate with **ROS** for real-time Visual SLAM pipeline.
-
----
-
-## 📚 References
-
-1. Mur-Artal, R., Montiel, J.M.M., Tardós, J.D. *ORB-SLAM2: An
