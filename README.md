@@ -28,7 +28,7 @@ Also, include:
 
 ---
 
-## 📷 Camera Intrinsics
+##  Camera Intrinsics
 
 This project uses **pinhole camera model** intrinsics, defined as:
 
@@ -88,7 +88,7 @@ Detect and visualize ORB keypoints in each frame.
 **Output:**
 
 * Video: `kp_detection_output.mp4` showing keypoints per frame.
-![feature_detection](outputs/kp_detection_output.gif)
+![feature_detection](output/kp_detection_output.gif)
 
 
 ---
